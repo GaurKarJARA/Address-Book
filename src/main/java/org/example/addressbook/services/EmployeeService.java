@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
         }
 
         public EmployeeDTO get(Long id){
-            EmployeeEntity foundEmp = EmployeeRepo.findById(id).orElseThrow(()->new RuntimeException("Cannot find employee with given id"));
+            EmployeeEntity foundEmp = employeeRepo.findById(id).orElseThrow(()->new RuntimeException("Cannot find employee with given id"));
 
             EmployeeDTO resDto = new EmployeeDTO(foundEmp.getName(), foundEmp.getEmail(), foundEmp.getId());
 
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
         public EmployeeDTO create(EmployeeDTO user){
             EmployeeEntity newUser = new EmployeeEntity(user.getName(), user.getEmail());
 
-            EmployeeRepo.save(newUser);
+            employeeRepo.save(newUser);
 
             EmployeeDTO resDto = new EmployeeDTO(newUser.getName(), newUser.getEmail(), newUser.getId());
 
@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 
         public List<EmployeeDTO> getAll(){
 
-            return EmployeeRepo.findAll().stream().map(entity -> {
+            return employeeRepo.findAll().stream().map(entity -> {
                 EmployeeDTO newUser = new EmployeeDTO(entity.getName(), entity.getEmail(), entity.getId());
                 return newUser;
             }).collect(Collectors.toList());
@@ -52,12 +52,12 @@ import java.util.stream.Collectors;
         }
 
         public EmployeeDTO edit(EmployeeDTO user, Long id){
-            EmployeeEntity foundEmp = EmployeeRepo.findById(id).orElseThrow(()->new RuntimeException("cannot find employee with given id"));
+            EmployeeEntity foundEmp = employeeRepo.findById(id).orElseThrow(()->new RuntimeException("cannot find employee with given id"));
 
             foundEmp.setName(user.getName());
             foundEmp.setEmail(user.getEmail());
 
-            EmployeeRepo.save(foundEmp);
+            employeeRepo.save(foundEmp);
 
             EmployeeDTO resDto = new EmployeeDTO(foundEmp.getName(), foundEmp.getEmail(), foundEmp.getId());
 
@@ -65,16 +65,16 @@ import java.util.stream.Collectors;
         }
 
         public String delete(Long id){
-            EmployeeEntity foundUser = EmployeeRepo.findById(id).orElseThrow(()->new RuntimeException("cannot find user with given id"));
+            EmployeeEntity foundUser = employeeRepo.findById(id).orElseThrow(()->new RuntimeException("cannot find user with given id"));
 
-            EmployeeRepo.delete(foundUser);
+            employeeRepo.delete(foundUser);
 
             return "employee deleted";
         }
 
         public String clear(){
 
-            EmployeeRepo.deleteAll();
+            employeeRepo.deleteAll();
             return "db cleared";
 
         }
